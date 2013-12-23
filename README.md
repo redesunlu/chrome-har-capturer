@@ -29,6 +29,7 @@ For example:
       --output, -o    Dump to file instead of stdout
       --verbose, -v   Enable verbose output on stderr                 [boolean]
       --messages, -m  Dump raw messages instead of the generated HAR  [boolean]
+      --autoclose, -c  Close Chrome automatically when finished       [boolean]
 
 This module comes with a utility that can be used to generate a cumulative HAR
 file from a list of URLs.
@@ -113,9 +114,13 @@ Emitted when Chrome is about to load `url`.
 
 #### Event: 'pageEnd'
 
-    function (url) {}
+    function (url, chrome) {}
 
 Emitted when Chrome has finished loading `url`.
+
+This chrome-har-capturer fork passes the chrome-remote-interface instance so 
+you can do something with the Remote Debug API, for example, execute Javascript 
+remotely after the page has been loaded.
 
 #### Event: 'pageError'
 
@@ -126,11 +131,14 @@ cumulative HAR object.
 
 #### Event: 'end'
 
-    function (har, messages) {}
+    function (har, messages, chrome) {}
 
 Emitted when every given URL has been loaded. `har` is the cumulative HAR object
 and `messages` is the array of raw messages received through the [Remote
 Debugging Protocol][3].
+
+This chrome-har-capturer fork passes the chrome-remote-interface instance so 
+you can do something with the Remote API when the execution has finished.
 
 #### Event: 'error'
 
